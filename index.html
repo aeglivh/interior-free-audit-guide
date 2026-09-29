@@ -4,429 +4,331 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Is it you, or is it Pinterest?</title>
-<meta name="description" content="A free 30 day audit. One small task a day to find out whose taste you've actually been collecting.">
+<meta name="description" content="A free 30-day style audit. Find out where your taste ends and the algorithm begins.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Karla:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#170D10;              /* matches the gate page exactly */
-    --bg-raised:#221318;
-    --bone:#EFE6DA;
-    --bone-dim:rgba(239,230,218,.78);
-    --mauve:#C29AA4;
-    --mauve-deep:#9E7A85;
-    --ink:#241A20;             /* text on the cream verdict card */
-    --accent:#8C5F71;          /* deep rose, used on the cream card only */
-    --line:rgba(239,230,218,.22);
-    --line-soft:rgba(239,230,218,.1);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;background:var(--bg)}
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation:none!important;transition:none!important}
-  }
-  body{
-    background:var(--bg);
-    color:var(--bone);
-    font-family:'Karla',system-ui,sans-serif;
-    font-size:17px;
-    line-height:1.65;
-    font-weight:300;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:660px;margin:0 auto;padding:0 20px 96px}
-
-  /* ---------- header ---------- */
-  header{padding:64px 0 8px;text-align:center}
-  .eyebrow{
-    font-size:12px;letter-spacing:.26em;text-transform:uppercase;
-    font-weight:500;color:var(--mauve);
-  }
-  h1{
-    font-family:'Playfair Display',serif;
-    font-weight:400;
-    font-size:clamp(42px,9vw,62px);
-    line-height:1.05;
-    margin:20px 0 0;
-    letter-spacing:.005em;
-  }
-  h1 em{font-style:italic;color:var(--mauve)}
-  .lede{
-    max-width:46ch;margin:22px auto 0;font-size:17px;color:var(--bone-dim);font-weight:300;
-  }
-  .lede strong{font-weight:500;color:var(--bone)}
-
-  /* ---------- progress rail ---------- */
-  .rail{
-    margin:44px 0 8px;
-    border:1px solid var(--line);
-    outline:1px solid var(--line-soft);
-    outline-offset:3px;
-    height:13px;
-    background:var(--bg-raised);
-    position:relative;
-  }
-  .rail-fill{
-    position:absolute;inset:0;width:0%;
-    background:var(--mauve);
-    transition:width .45s ease;
-  }
-  .rail-label{
-    display:flex;justify-content:space-between;
-    font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
-    color:var(--bone-dim);
-    margin-bottom:56px;margin-top:9px;
-  }
-  .rail-label #done-count{color:var(--mauve)}
-
-  /* ---------- house rules ---------- */
-  .howto{
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:28px 4px;
-    margin-bottom:64px;
-    font-size:16px;
-    color:var(--bone-dim);
-  }
-  .howto p+p{margin-top:12px}
-  .howto strong{color:var(--bone);font-weight:500}
-  .howto .rule-title{
-    font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:500;
-    color:var(--mauve);margin-bottom:16px;
+  :root {
+    --espresso: #170D10;      /* espresso-plum background */
+    --espresso-soft: #221318; /* slightly lifted surface */
+    --bone: #EFE6DA;          /* bone cream type */
+    --bone-dim: rgba(239, 230, 218, 0.55);
+    --bone-faint: rgba(239, 230, 218, 0.28);
+    --mauve: #C29AA4;         /* dusty mauve-rose accent */
+    --mauve-deep: #9E7A85;
+    --brass: #9D9027;         /* heading only */
+    --hairline: rgba(239, 230, 218, 0.16);
   }
 
-  /* ---------- phases ---------- */
-  .phase{margin-bottom:26px}
-  .phase-head{
-    display:flex;align-items:baseline;gap:14px;
-    margin:60px 0 10px;
-  }
-  .phase-head .roman{
-    font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--mauve);
-  }
-  .phase-head h2{
-    font-family:'Playfair Display',serif;font-weight:400;font-size:30px;letter-spacing:.005em;
-  }
-  .phase-intro{
-    font-size:16px;color:var(--bone-dim);font-weight:300;
-    max-width:52ch;margin-bottom:30px;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background: #170D10;
   }
 
-  /* ---------- day cards ---------- */
-  .day{
-    background:var(--bg-raised);
-    border:1px solid var(--line);
-    outline:1px solid var(--line-soft);
-    outline-offset:4px;
-    margin:0 0 24px;
-    padding:22px 20px 18px;
-    transition:outline-color .3s ease, border-color .3s ease;
-  }
-  .day.done{
-    border-color:var(--mauve);
-    outline-color:rgba(194,154,164,.4);
-  }
-  .day-top{display:flex;gap:16px;align-items:flex-start}
-  .day-num{
-    font-family:'Playfair Display',serif;
-    font-size:30px;font-weight:400;line-height:1;
-    color:var(--mauve-deep);
-    min-width:44px;
-    padding-top:2px;
-  }
-  .day.done .day-num{color:var(--mauve)}
-  .day-body{flex:1}
-  .day-prompt{font-size:17px;font-weight:400;color:var(--bone);cursor:pointer}
-  .day-hint{
-    font-size:15.5px;color:var(--bone-dim);margin-top:7px;font-weight:300;
+  body {
+    background: #170D10;
+    background: var(--espresso);
+    color: var(--bone);
+    font-family: 'Karla', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .tick{
-    appearance:none;-webkit-appearance:none;
-    width:26px;height:26px;flex:none;
-    border:1px solid var(--line);
-    outline:1px solid var(--line-soft);
-    outline-offset:2px;
-    background:var(--bg);
-    cursor:pointer;
-    position:relative;
-    margin-top:3px;
-  }
-  .tick:checked{background:var(--mauve);border-color:var(--mauve)}
-  .tick:checked::after{
-    content:"\2713";position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--bg);font-size:17px;font-weight:700;line-height:1;
-  }
-  .tick:focus-visible,
-  .note-toggle:focus-visible,
-  .note textarea:focus-visible{
-    outline:2px solid var(--mauve);outline-offset:3px;
+  /* background lives on a wrapper that contains all content —
+     no z-index tricks, nothing can layer between them */
+  .page {
+    background: #170D10;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
   }
 
-  .note-toggle{
-    background:none;border:none;cursor:pointer;
-    font-family:'Karla',sans-serif;
-    font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
-    color:var(--mauve);
-    padding:12px 0 0;
+  /* faint vignette so the page feels like a lit room, not a flat screen */
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 90% 70% at 50% 30%, rgba(194, 154, 164, 0.06), transparent 70%);
+    pointer-events: none;
   }
-  .note{display:none;margin-top:12px}
-  .note.open{display:block}
-  .note textarea{
-    width:100%;min-height:72px;resize:vertical;
-    font-family:'Karla',sans-serif;font-size:15.5px;line-height:1.55;color:var(--bone);
-    background:var(--bg);
-    border:1px solid var(--line);
-    padding:10px 12px;
-  }
-  .note textarea::placeholder{color:rgba(239,230,218,.5)}
 
-  /* ---------- verdict card ---------- */
-  .verdict{
-    display:none;
-    margin-top:80px;
-    background:var(--bone);
-    color:var(--ink);
-    padding:38px 30px 42px;
-    border:1px solid rgba(0,0,0,.25);
-    outline:1px solid var(--line);
-    outline-offset:6px;
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
   }
-  .verdict.show{display:block;animation:rise .6s ease}
-  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  .verdict .eyebrow{color:var(--accent)}
-  .verdict h2{
-    font-family:'Playfair Display',serif;font-weight:400;font-size:34px;line-height:1.1;
-    margin:14px 0 18px;
-  }
-  .verdict p{font-size:16px;color:rgba(36,26,32,.88);font-weight:400}
-  .verdict blockquote{
-    font-family:'Playfair Display',serif;font-style:italic;font-size:22px;line-height:1.4;
-    border-left:2px solid var(--accent);
-    padding-left:16px;margin:22px 0;
-    color:var(--ink);
-  }
-  .verdict .small-label{
-    font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
-    color:var(--accent);margin-bottom:6px;
-  }
-  .verdict-block+.verdict-block{margin-top:24px}
 
-  /* ---------- closing ---------- */
-  .capture{
-    margin-top:80px;
-    border-top:1px solid var(--line);
-    padding-top:48px;
-    text-align:center;
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--mauve);
+    margin-bottom: 1.75rem;
   }
-  .capture h2{
-    font-family:'Playfair Display',serif;font-weight:400;font-size:32px;line-height:1.15;
-  }
-  .capture p{max-width:46ch;margin:16px auto 0;color:var(--bone-dim);font-size:16px;font-weight:300}
 
-  footer{
-    margin-top:88px;text-align:center;
-    font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;
-    color:var(--bone-dim);
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 8.5vw, 5.4rem);
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+    max-width: 13ch;
+    margin-inline: auto;
+    color: var(--brass);
+  }
+
+  h1 .you {
+    font-style: italic;
+    color: var(--brass);
+  }
+
+  h1 .pinterest {
+    color: var(--brass);
+    opacity: 0.62;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  /* the one moment: a strike draws itself through "Pinterest" after the page settles */
+  h1 .pinterest::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    top: 54%;
+    height: 1.5px;
+    background: var(--brass);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1) 1.4s;
+  }
+
+  body.settled h1 .pinterest::after { transform: scaleX(1); }
+
+  .lede {
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    line-height: 1.65;
+    color: var(--bone-dim);
+    max-width: 34rem;
+    margin: 2.25rem auto 0;
+  }
+
+  .lede em {
+    font-style: normal;
+    color: var(--bone);
+  }
+
+  /* ---- form ---- */
+
+  .gate {
+    margin-top: 3.25rem;
+    width: 100%;
+    max-width: 26.5rem;
+  }
+
+  .field-row {
+    display: flex;
+    border: 1px solid var(--hairline);
+    background: var(--espresso-soft);
+    transition: border-color 0.25s ease;
+  }
+
+  .field-row:focus-within {
+    border-color: var(--mauve);
+  }
+
+  .field-row input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--bone);
+    font-family: 'Karla', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    padding: 1.05rem 1.15rem;
+  }
+
+  .field-row input::placeholder { color: var(--bone-faint); }
+
+  .field-row button {
+    background: var(--mauve);
+    color: var(--espresso);
+    border: none;
+    font-family: 'Karla', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .field-row button:hover { background: var(--bone); }
+
+  .field-row button:focus-visible,
+  .field-row input:focus-visible {
+    outline: 2px solid var(--mauve);
+    outline-offset: 2px;
+  }
+
+  .reassure {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--bone-faint);
+  }
+
+  .gate-message {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--mauve);
+    min-height: 1.4em;
+  }
+
+  /* ---- what's inside ---- */
+
+  .inside {
+    margin-top: 4.5rem;
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--hairline);
+    width: 100%;
+    max-width: 34rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .inside span {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  /* ---- entrance ---- */
+
+  .rise {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .rise.d1 { animation-delay: 0.1s; }
+  .rise.d2 { animation-delay: 0.25s; }
+  .rise.d3 { animation-delay: 0.4s; }
+  .rise.d4 { animation-delay: 0.55s; }
+  .rise.d5 { animation-delay: 0.7s; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise { opacity: 1; transform: none; animation: none; }
+    h1 .pinterest::after { transition: none; transform: scaleX(1); }
+  }
+
+  @media (max-width: 480px) {
+    .field-row button { padding: 0 1.1rem; }
+    .inside { gap: 1.25rem 2rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="page">
 
-  <header>
-    <p class="eyebrow">a free 30 day audit</p>
-    <h1>Is it you,<br>or is it <em>Pinterest?</em></h1>
-    <p class="lede">Your saved folder is full, and somehow your home still doesn't look like you. So let's find out whose taste you've actually been collecting all this time. <strong>One small task a day, about five minutes each,</strong> and you don't have to buy a single thing, I promise.</p>
-  </header>
+<main>
+  <p class="eyebrow rise d1">A free 30-day style audit</p>
 
-  <div class="rail" role="progressbar" aria-label="Days completed" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="railbar">
-    <div class="rail-fill" id="railfill"></div>
+  <h1 class="rise d2">Is it <span class="you">you</span>,<br>or is it <span class="pinterest">Pinterest</span>?</h1>
+
+  <p class="lede rise d3">Somewhere under all the saved posts, you have taste of your own. Ten minutes a day, thirty days, your own home as the classroom — <em>and by the end, you'll know which is which.</em></p>
+
+  <form class="gate rise d4" id="gate-form" novalidate
+        action="https://app.kit.com/forms/9764230/subscriptions"
+        method="post" target="ck_frame">
+    <div class="field-row">
+      <input type="email" id="email" name="email_address" placeholder="Your email" autocomplete="email" required aria-label="Your email">
+      <button type="submit">Send me the audit</button>
+    </div>
+    <p class="gate-message" id="gate-message" role="status" aria-live="polite"></p>
+    <p class="reassure">One email with your audit link. After that, I write about once a month — you can leave anytime.</p>
+  </form>
+
+  <iframe name="ck_frame" id="ck_frame" title="Signup" style="display:none;width:0;height:0;border:0;"></iframe>
+
+  <div class="inside rise d4">
+    <span>30 days</span>
+    <span>10 min a day</span>
+    <span>Your home, your eyes</span>
   </div>
-  <div class="rail-label"><span>one day at a time</span><span><span id="done-count">0</span> / 30</span></div>
+</main>
 
-  <section class="howto">
-    <p class="rule-title">house rules</p>
-    <p><strong>One task a day.</strong> I know you'll want to binge them all in one evening, but please don't, because this only works if you live your normal life in between the tasks.</p>
-    <p><strong>Write the notes when a day asks for them.</strong> It might feel unnecessary in the moment, but day 30 needs them, and you'll see why when you get there.</p>
-    <p><strong>And be honest.</strong> Nobody sees any of this, everything stays in your browser and never leaves your device. So if you lie here, you're only lying to yourself, and that's kind of the problem we're trying to fix in the first place.</p>
-  </section>
-
-  <main id="phases"></main>
-
-  <section class="verdict" id="verdict" aria-live="polite">
-    <p class="eyebrow">day 30 &middot; the verdict</p>
-    <h2>The wall is full.</h2>
-    <p>Thirty days ago this was a folder full of saved pictures. Now it's something you can actually put into words. Here it is, in yours:</p>
-    <div class="verdict-block">
-      <p class="small-label">your home should feel like (day 22)</p>
-      <blockquote id="v-words">&mdash;</blockquote>
-    </div>
-    <div class="verdict-block">
-      <p class="small-label">your style, one sentence (day 28)</p>
-      <blockquote id="v-sentence">&mdash;</blockquote>
-    </div>
-    <div class="verdict-block">
-      <p class="small-label">your verdict and your first move (day 30)</p>
-      <blockquote id="v-verdict">&mdash;</blockquote>
-    </div>
-    <p>Screenshot this and keep it somewhere you'll see it. Next time you're deciding something for your home, come back to it, and let the call be yours this time, not whatever the feed was pushing.</p>
-  </section>
-
-  <section class="capture">
-    <h2>That's the whole thing.</h2>
-    <p>Finding your style is the easy part. Actually using it, choosing things, editing things, trusting your own eye, that's the part that keeps going. Keep your verdict somewhere you'll see it, and let it guide what you pick next.</p>
-  </section>
-
-  <footer>
-    <p>a free 30 day audit</p>
-  </footer>
 </div>
 
 <script>
-const PHASES = [
-  {
-    roman:"I", name:"Notice",
-    intro:"The first week, we don't change a thing. You just start paying attention. You react to your home all day long, you've only trained yourself to ignore it.",
-    days:[
-      {p:"Imagine your home is on fire and you can grab one thing on your way out. People, pets and papers are already safe, so what do you take?", h:"Don't overthink it. The interesting part is how fast you knew."},
-      {p:"Stand in your main room and squint until everything goes blurry, then have a look at what you can still make out.", h:"Whatever you can still make out is what the room is really built around. If nothing stands out, that tells you something too."},
-      {p:"Go find the corner you always avoid looking at, you know exactly which one I mean, and try to put into words what bothers you about it.", h:"Maybe it's messy. Maybe it's empty. Maybe you have no idea. All of those count."},
-      {p:"At some point today, somewhere out in the world, something is going to catch your eye. When it happens, write it down.", h:"A door, a chair in a cafe, a colour on a building. It doesn't have to make sense yet."},
-      {p:"Scroll back through your camera roll until you find the last interior photo you actually took yourself, not one you saved from someone else.", h:"Something made you pull out your phone right then. That was your own taste, nobody else's."},
-      {p:"Think about the first thing you see when you wake up in the morning, and be honest about how it makes you feel.", h:"You see it 365 mornings a year. Whatever it does to you, it does a lot."},
-      {p:"Which room in your home feels the most like you, and which one feels like a stranger lives there? Write a line about what the difference is.", h:"You're allowed to guess. A guess is just an opinion you haven't owned up to yet."}
-    ]
-  },
-  {
-    roman:"II", name:"Audit",
-    intro:"This week we open the saved folder and find out what's actually in there. Don't worry, everyone's folder is embarrassing, mine included.",
-    days:[
-      {p:"Open your saved images and scroll through the last twenty of them quickly, then write down the three things that keep showing up.", h:"Maybe it's arches. Maybe it's boucle. Maybe it's beige everything. Just count for now. The judging comes later."},
-      {p:"Take those three things that keep repeating and ask yourself which ones you actually own, and which ones you've never bought even once.", h:"There's usually a gap between what you save and what you actually buy. Sit with it for a minute."},
-      {p:"Pick one saved photo and be really honest with yourself about whether you love the room, or whether you love the life that seems to happen in it.", h:"The slow mornings, the coffee, the person you imagine you'd be in there. It's worth knowing what you actually saved."},
-      {p:"Look at the clothes you wear most. Then look around your home. Did the same person choose both?", h:"Nobody pushed your wardrobe on you the way the internet pushed your sofa. That's why your closet usually knows you better."},
-      {p:"Find the thing you bought because somebody else had it. We all have one. Admit whose it really is.", h:"An influencer, a friend, maybe an ex. Write the name down. Nobody's reading this."},
-      {p:"Now find something you own that no algorithm ever showed you, something you just loved all on your own, with no help.", h:"Hold on to that one. It might be the biggest clue in the whole thing."},
-      {p:"Go through your saves and delete ten of them that you know, deep down, were never really you.", h:"If one hurts to delete, ask yourself why. Then either keep it for real, or let it go."}
-    ]
-  },
-  {
-    roman:"III", name:"Test",
-    intro:"Small experiments this week, none of them cost a thing. Nothing's permanent either, you can put it all back exactly how it was. You probably won't want to, but you can.",
-    days:[
-      {p:"Move one object to a spot where it doesn't belong at all, and leave it there for the whole day, even if it annoys you.", h:"A thing in the wrong spot teaches you more than one in the right spot. At least now you notice it."},
-      {p:"You know that thing you keep hidden away because it feels too girly or too weird or just too much? Today you take it out and put it somewhere visible.", h:"It's been hiding in a drawer for no good reason. Let it out."},
-      {p:"Empty one shelf completely, all the way down to nothing, and then only put back the things that actually deserve a place on it.", h:"Whatever's still sitting on the table tonight was never decoration. It was filler."},
-      {p:"Bring one colour into the room that you love but never dared to use. Flowers count, a pillow counts, a stack of books counts.", h:"It's a tiny bit of courage. And you can undo it in a second, so there's no risk."},
-      {p:"Take a photo of your main room, then look at the photo as if it were someone else's home, and ask yourself what kind of person seems to live there.", h:"After a while you stop really seeing your own rooms. A photo shows it plainly. Write one line about this stranger."},
-      {p:"Sit down somewhere in your home where you never normally sit, and just look around from there for a while.", h:"Every room has a spot you never look from. Some things only show up from there."},
-      {p:"Style one tiny corner exactly the way you want it, knowing that nobody else will ever be shown it. A windowsill is enough, a nightstand is enough.", h:"No rules, no audience. Just you, with nobody watching. That's about as honest as your taste gets."}
-    ]
-  },
-  {
-    roman:"IV", name:"Decide",
-    intro:"The noticing is done. Now you get to take a side. Write these ones down properly, day 30 comes looking for them.",
-    days:[
-      {p:"Write down five words that describe how your home should feel. Not how it should look, how it should feel.", h:"Cosy, grown-up, warm, dramatic, calm, whatever they are. Just make sure they're yours, not a magazine's. Put them in the note, you'll need them."},
-      {p:"Now look at your five words and kill the one that's borrowed.", h:"Simple test: would your best friend say that word sounds like you? If you hesitated on one, that's the one to cut."},
-      {p:"Find three photos of rooms that match your remaining words. They have to match the feeling, not the furniture.", h:"Old saves are fine. They just have to pass the feeling test now, not the pretty test."},
-      {p:"Decide on your non-negotiable, the one thing your home absolutely must have for it to feel like yours, and write it down.", h:"Maybe it's books everywhere. Maybe one wall of real colour. Maybe a beautiful chair that does nothing useful at all."},
-      {p:"Decide on your never, the thing that everyone else seems to love and that you are officially done pretending to like.", h:"Say it out loud once. After that you never have to explain it to anyone."},
-      {p:"Put three things next to each other: the object you'd save from the fire, the thing no algorithm ever showed you, and your secret corner. Now look for what they have in common.", h:"It might be a colour, an era, a mood, a certain softness. Whatever it is, try to name it today."},
-      {p:"Write your style down in one sentence, using your own words instead of a category someone invented.", h:"Not japandi. Not modern organic. More like: old things, deep colours, a bit of drama. Put it in the note, day 30 wants it."}
-    ]
-  },
-  {
-    roman:"V", name:"The verdict",
-    intro:"Two days left, and honestly, you probably already know the answer. Now we just say it out loud.",
-    days:[
-      {p:"Hold your one sentence next to your Pinterest board and honestly ask yourself how much of that board survives it.", h:"Maybe half. Maybe a third. Maybe almost none. Either way, you're better off knowing."},
-      {p:"Time for the verdict. Was your taste actually yours, or was it borrowed? And what's the first thing your real style wants you to change in your home? Write both in the note.", h:"This one unlocks your results below, so don't skip the note."}
-    ]
-  }
-];
+  document.body.classList.add("settled");
 
-const KEY = "casa30";
-let state = load();
+  const form = document.getElementById("gate-form");
+  const emailInput = document.getElementById("email");
+  const message = document.getElementById("gate-message");
+  const frame = document.getElementById("ck_frame");
+  const button = form.querySelector("button");
 
-function load(){
-  try{ return JSON.parse(localStorage.getItem(KEY)) || {done:{},notes:{}}; }
-  catch(e){ return {done:{},notes:{}}; }
-}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  let awaitingResponse = false;
 
-const phasesEl = document.getElementById("phases");
-let dayCounter = 0;
+  form.addEventListener("submit", (e) => {
+    const email = emailInput.value.trim();
 
-PHASES.forEach(phase => {
-  const sec = document.createElement("section");
-  sec.className = "phase";
-  sec.innerHTML = `
-    <div class="phase-head"><span class="roman">${phase.roman}</span><h2>${phase.name}</h2></div>
-    <p class="phase-intro">${phase.intro}</p>`;
-  phase.days.forEach(d => {
-    dayCounter++;
-    const n = dayCounter;
-    const card = document.createElement("div");
-    card.className = "day" + (state.done[n] ? " done" : "");
-    card.innerHTML = `
-      <div class="day-top">
-        <input class="tick" type="checkbox" id="t${n}" ${state.done[n] ? "checked" : ""} aria-label="Mark day ${n} done">
-        <div class="day-num" aria-hidden="true">${String(n).padStart(2,"0")}</div>
-        <div class="day-body">
-          <label class="day-prompt" for="t${n}">${d.p}</label>
-          <p class="day-hint">${d.h}</p>
-          <button class="note-toggle" data-n="${n}" aria-expanded="${state.notes[n] ? "true":"false"}">${state.notes[n] ? "edit note" : "add a note"}</button>
-          <div class="note ${state.notes[n] ? "open":""}" id="note-${n}">
-            <textarea data-n="${n}" placeholder="Write it the way you'd say it, nobody sees this but you.">${state.notes[n] || ""}</textarea>
-          </div>
-        </div>
-      </div>`;
-    sec.appendChild(card);
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      e.preventDefault();
+      message.textContent = "That email doesn't look quite right — check it once more.";
+      return;
+    }
 
-    card.querySelector(".tick").addEventListener("change", e => {
-      state.done[n] = e.target.checked;
-      if(!e.target.checked) delete state.done[n];
-      card.classList.toggle("done", e.target.checked);
-      save(); refresh();
-    });
-    card.querySelector(".note-toggle").addEventListener("click", e => {
-      const box = card.querySelector(".note");
-      const open = box.classList.toggle("open");
-      e.target.setAttribute("aria-expanded", open);
-      if(open) box.querySelector("textarea").focus();
-    });
-    card.querySelector("textarea").addEventListener("input", e => {
-      state.notes[n] = e.target.value;
-      if(!e.target.value) delete state.notes[n];
-      card.querySelector(".note-toggle").textContent = e.target.value ? "edit note" : "add a note";
-      save(); refresh();
-    });
+    // valid: let the browser post it natively into the hidden frame
+    awaitingResponse = true;
+    button.disabled = true;
+    message.textContent = "Sending…";
+
+    // safety net if the frame never reports back
+    setTimeout(() => {
+      if (awaitingResponse) showSuccess();
+    }, 4000);
   });
-  phasesEl.appendChild(sec);
-});
 
-function refresh(){
-  const count = Object.keys(state.done).length;
-  document.getElementById("done-count").textContent = count;
-  document.getElementById("railfill").style.width = (count/30*100) + "%";
-  document.getElementById("railbar").setAttribute("aria-valuenow", count);
-  const v = document.getElementById("verdict");
-  if(count === 30){
-    document.getElementById("v-words").textContent    = state.notes[22] || "You skipped the note on day 22, and it matters here, so go back and write it.";
-    document.getElementById("v-sentence").textContent = state.notes[28] || "You skipped the note on day 28, and it matters here, so go back and write it.";
-    document.getElementById("v-verdict").textContent  = state.notes[30] || "You skipped the note on day 30, and it matters here, so go back and write it.";
-    if(!v.classList.contains("show")) v.classList.add("show");
-  } else {
-    v.classList.remove("show");
+  frame.addEventListener("load", () => {
+    if (!awaitingResponse) return; // ignore the initial blank load
+    showSuccess();
+  });
+
+  function showSuccess() {
+    awaitingResponse = false;
+    form.querySelector(".field-row").style.display = "none";
+    form.querySelector(".reassure").style.display = "none";
+    message.textContent = "Check your inbox — your audit is one click away. (Peek in spam if it's shy.)";
   }
-}
-refresh();
 </script>
 
 </body>
